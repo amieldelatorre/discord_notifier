@@ -26,3 +26,8 @@ variable "lambda_function_zip_filename" {
   type        = string
   default     = "myFunction.zip"
 }
+
+variable "scheduler_input" {
+  description = "Value for the payload sent to the lambda. MUST be a JSON string"
+  type        = string
+}
