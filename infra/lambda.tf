@@ -9,7 +9,7 @@ resource "aws_cloudwatch_log_group" "discord_notifier" {
 
 data "aws_caller_identity" "current" {}
 
-data "aws_iam_policy_document" "logging" {
+data "aws_iam_policy_document" "discord_notifier_logging" {
   statement {
     effect = "Allow"
 
@@ -32,14 +32,14 @@ data "aws_iam_policy_document" "logging" {
   }
 }
 
-resource "aws_iam_policy" "logging" {
+resource "aws_iam_policy" "discord_notifier_logging" {
   name        = "${local.lambda_function_name}-logging"
   path        = "/"
   description = "IAM policy for logging from a lambda"
-  policy      = data.aws_iam_policy_document.logging.json
+  policy      = data.aws_iam_policy_document.discord_notifier_logging.json
 }
 
-data "aws_iam_policy_document" "assume_role" {
+data "aws_iam_policy_document" "discord_notifier_assume_role" {
   statement {
     effect = "Allow"
 
@@ -54,12 +54,12 @@ data "aws_iam_policy_document" "assume_role" {
 
 resource "aws_iam_role" "discord_notifier" {
   name                = var.project_name
-  assume_role_policy  = data.aws_iam_policy_document.assume_role.json
+  assume_role_policy  = data.aws_iam_policy_document.discord_notifier_assume_role.json
 }
 
 resource "aws_iam_role_policy_attachment" "logging" {
   role       = aws_iam_role.discord_notifier.name
-  policy_arn = aws_iam_policy.logging.arn
+  policy_arn = aws_iam_policy.discord_notifier_logging.arn
 }
 
 data "local_file" "lambda_function_zip" {
