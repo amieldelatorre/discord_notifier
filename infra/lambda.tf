@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "discord_notifier_assume_role" {
 }
 
 resource "aws_iam_role" "discord_notifier" {
-  name                = var.project_name
+  name                = "${var.project_name}-lambda"
   assume_role_policy  = data.aws_iam_policy_document.discord_notifier_assume_role.json
 }
 
@@ -76,6 +76,7 @@ resource "aws_lambda_function" "discord_notifier" {
 
   depends_on = [ 
     aws_cloudwatch_log_group.discord_notifier,
-    aws_iam_role.discord_notifier
+    aws_iam_role.discord_notifier,
+    aws_iam_role_policy_attachment.logging
    ]
 }
