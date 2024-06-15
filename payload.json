@@ -1,0 +1,14 @@
+{
+  "webhookUrl": "your_webhook",
+  "data": {
+      "username": "Username",
+      "content": "@here",
+      "embeds": [
+        {
+            "title": "title",
+            "description": "description",
+            "color":       5814783
+        }
+      ]
+  }
+}
